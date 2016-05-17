@@ -15,8 +15,10 @@
     "hogan.js": "^3.0.2"
   },
   "scripts": {
+    "start": "node server.js",
     "test": "mocha"
   },
+  "main":"server.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JayceHN/SINF1212.git"
