@@ -1,0 +1,29 @@
+{
+  "name": "gigo",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "latest",
+    "grunt": "latest"
+  },
+  "description": "files_sharing",
+  "main": ".mongorc.js",
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JayceHN/SINF1212.git"
+  },
+  "keywords": [
+    "myapp"
+  ],
+  "author": "gigo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JayceHN/SINF1212/issues"
+  },
+  "homepage": "https://github.com/JayceHN/SINF1212#readme"
+}
