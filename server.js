@@ -14,16 +14,48 @@
 // message = '*************** test ***************\n'
 // console.log(message);
 // ****************************************************************************
+//
+// var express = require('express');
+// var app = express();
+//
+// // server
+// var http = require('http');
+// http.createServer(function(req, res){
+//   res.writeHead(200,{
+//     'Content-Type': 'text/plain'
+//   });
+//   res.end('Hello, world!');
+// }).listen(8000);
+// console.log('Server running at http://localhost:8000/');
+// ****************************************************************************
+var connect = require('connect');
+var app = connect();
 
-var express = require('express');
-var app = express();
+// middleware function (the functions added by use() will go on FIFO)
 
-// server
-var http = require('http');
-http.createServer(function(req, res){
-  res.writeHead(200,{
-    'Content-Type': 'text/plain'
-  });
+var logger = function(req, res, next){
+  console.log(req.method, req.url);
+
+  // call helloWorld (if not there then the middleware is stopped here)
+  // so hang forever because not calling the res.end() method.
+  next();
+};
+
+var helloWorld = function(req, res, next){
+  res.setHeader('Content-Type', 'text/plain');
   res.end('Hello, world!');
-}).listen(8000);
-console.log('Server running at http://localhost:8000/');
+};
+
+var goodbyeWorld = function(req, res, next){
+    res.setHeader('Content-Type','text/plain');
+    res.end('Goodbye, world...');
+};
+
+app.use(logger);
+// http://localhost:3000/hello
+app.use('/hello', helloWorld);
+// http://localhost:3000/goodbye
+app.use('/goodbye', goodbyeWorld);
+
+app.listen(3000);
+console.log('Server running at http://localhost:3000/');
