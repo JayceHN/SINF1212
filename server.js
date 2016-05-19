@@ -28,34 +28,60 @@
 // }).listen(8000);
 // console.log('Server running at http://localhost:8000/');
 // ****************************************************************************
-var connect = require('connect');
-var app = connect();
 
-// middleware function (the functions added by use() will go on FIFO)
+// // to use middleware components
+// var connect = require('connect');
+// var app = connect();
+//
+// // middleware function (the functions added by use() will go on FIFO)
+//
+// var logger = function(req, res, next){
+//   console.log(req.method, req.url);
+//
+//   // call helloWorld (if not there then the middleware is stopped here)
+//   // so hang forever because not calling the res.end() method.
+//   next();
+// };
+//
+// var helloWorld = function(req, res, next){
+//   res.setHeader('Content-Type', 'text/plain');
+//   res.end('Hello, world!');
+// };
+//
+// var goodbyeWorld = function(req, res, next){
+//     res.setHeader('Content-Type','text/plain');
+//     res.end('Goodbye, world...');
+// };
+//
+// app.use(logger);
+// // http://localhost:3000/hello
+// app.use('/hello', helloWorld);
+// // http://localhost:3000/goodbye
+// app.use('/goodbye', goodbyeWorld);
+//
+// app.listen(3000);
+// console.log('Server running at http://localhost:3000/');
+// ****************************************************************************
+//
+// var express = require('express');
+// var app = express();
+//
+// // middleware to respond to HTTP req
+// app.use('/', function(req, res){
+//   // send the response
+//   res.send('Hello, world!');
+// });
+//
+// app.listen(3000);
+// console.log('Server running at http://localhost:3000/');
+//
+// module.exports = app;
+// ****************************************************************************
 
-var logger = function(req, res, next){
-  console.log(req.method, req.url);
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-  // call helloWorld (if not there then the middleware is stopped here)
-  // so hang forever because not calling the res.end() method.
-  next();
-};
-
-var helloWorld = function(req, res, next){
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello, world!');
-};
-
-var goodbyeWorld = function(req, res, next){
-    res.setHeader('Content-Type','text/plain');
-    res.end('Goodbye, world...');
-};
-
-app.use(logger);
-// http://localhost:3000/hello
-app.use('/hello', helloWorld);
-// http://localhost:3000/goodbye
-app.use('/goodbye', goodbyeWorld);
-
+var express = require('./config/express');
+var app = express();
 app.listen(3000);
+module.exports = app;
 console.log('Server running at http://localhost:3000/');
