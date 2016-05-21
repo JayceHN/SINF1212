@@ -3,9 +3,10 @@ exports.render = function(req, res){
     console.log(req.session.lastVisit);
   }
   req.session.lastVisit = new Date();
-  
+
   // use index.ejs to render what's in "% %"
   res.render('index', {
-    title: 'Hello, world!'
-  })
+    title: 'Hello, world!',
+    userFullName: req.user ? req.user.fullName : ''
+  });
 };
