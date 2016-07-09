@@ -38,7 +38,7 @@
 // var logger = function(req, res, next){
 //   console.log(req.method, req.url);
 //
-//   // call helloWorld (if not there then the middleware is stopped here)
+//   // call helloWorld (if no more functions then the middleware is stopped here)
 //   // so hang forever because not calling the res.end() method.
 //   next();
 // };
