@@ -11,6 +11,17 @@ module.exports = function(app) {
     failureFlash: true
   }));
   app.get('/signout', users.signout);
+
+  app.route('/users')
+  .post(users.create)
+  .get(users.list);
+
+  app.route('/users:userId')
+  .get(users.read)
+  .put(users.update)
+  .delete(users.delete);
+  app.param('userId', users.userByID);
+
 };
 
 // app.route('/users')

@@ -6,6 +6,7 @@ var UserSchema = new Schema({
   mail : {
     type: String,
     unique: true,
+    // tri avoid spaces 
     trim: true,
     match: [/.+\@.+\..+/, "Please fill a valid e-mail address"],
     required: 'mail is required'
@@ -31,12 +32,8 @@ var UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  lastname : String,
-  firstname : String,
-  description : String,
-  // photo maybe
-  repertory : String,
-  friend_list : [String],
+  pseudo : String,
+  // friend_list : [UserSchema],
   permission : {
     type: String,
     enum: ['Admmin', 'Owner', 'User']
@@ -47,20 +44,20 @@ var UserSchema = new Schema({
   }
 });
 
-UserSchema.virtual('fullname').get(function() {
-  return this.firstname + ' ' + this.lastname;
-}).set(function(fullname) {
-  var splitname = fullname.split(' ');
-  this.firstname = splitname[0] || '';
-  this.lastname = splitname[1] || '';
-});
-UserSchema.pre('save', function(next) {
-  if (this.password) {
-    this.salt = new Buffer(crypto.randomBytes(16).toString('base64'),
-    'base64');
-    this.password = this.hashPassword(this.password);
-  }next();
-});
+// UserSchema.virtual('fullname').get(function() {
+//   return this.firstname + ' ' + this.lastname;
+// }).set(function(fullname) {
+//   var splitname = fullname.split(' ');
+//   this.firstname = splitname[0] || '';
+//   this.lastname = splitname[1] || '';
+// });
+// UserSchema.pre('save', function(next) {
+//   if (this.password) {
+//     this.salt = new Buffer(crypto.randomBytes(16).toString('base64'),
+//     'base64');
+//     this.password = this.hashPassword(this.password);
+//   }next();
+// });
 
 UserSchema.methods.hashPassword = function(password) {
   return crypto.pbkdf2Sync(password, this.salt, 10000,
