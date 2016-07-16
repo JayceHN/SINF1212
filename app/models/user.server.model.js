@@ -6,10 +6,16 @@ var UserSchema = new Schema({
   mail : {
     type: String,
     unique: true,
-    // tri avoid spaces 
+    // trim modifier avoid spaces
     trim: true,
     match: [/.+\@.+\..+/, "Please fill a valid e-mail address"],
     required: 'mail is required'
+  },
+  pseudo : {
+    type: String,
+    unique: true,
+    trim: true,
+    required : true
   },
   password :{
     type: String,
@@ -32,7 +38,6 @@ var UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  pseudo : String,
   // friend_list : [UserSchema],
   permission : {
     type: String,
