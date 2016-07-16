@@ -11,12 +11,6 @@ var UserSchema = new Schema({
     match: [/.+\@.+\..+/, "Please fill a valid e-mail address"],
     required: 'mail is required'
   },
-  pseudo : {
-    type: String,
-    unique: true,
-    trim: true,
-    required : true
-  },
   password :{
     type: String,
     required: true,
@@ -25,6 +19,12 @@ var UserSchema = new Schema({
         return password.length >= 6;
       },'Password should be longer'
     ]
+  },
+  pseudo : {
+    type: String,
+    unique: true,
+    trim: true,
+    required : true
   },
   salt:{
     type: String
@@ -38,7 +38,10 @@ var UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  // friend_list : [UserSchema],
+  friend_list : [{
+    type: Schema.ObjectId,
+    ref: 'User'
+  }],
   permission : {
     type: String,
     enum: ['Admmin', 'Owner', 'User']
@@ -56,13 +59,14 @@ var UserSchema = new Schema({
 //   this.firstname = splitname[0] || '';
 //   this.lastname = splitname[1] || '';
 // });
-// UserSchema.pre('save', function(next) {
-//   if (this.password) {
-//     this.salt = new Buffer(crypto.randomBytes(16).toString('base64'),
-//     'base64');
-//     this.password = this.hashPassword(this.password);
-//   }next();
-// });
+
+UserSchema.pre('save', function(next) {
+  if (this.password) {
+    this.salt = new Buffer(crypto.randomBytes(16).toString('base64'),
+    'base64');
+    this.password = this.hashPassword(this.password);
+  }next();
+});
 
 UserSchema.methods.hashPassword = function(password) {
   return crypto.pbkdf2Sync(password, this.salt, 10000,
@@ -96,5 +100,9 @@ UserSchema.set('toJSON', {
 UserSchema.statics.findOneByMail = function (mail, callback){
   this.findOne({ mail: new RegExp(mail, 'i') }, callback);
 };
+UserSchema.statics.findOneByPseudo = function (mail, callback){
+  this.findOne({ pseudo: new RegExp(pseudo, 'i') }, callback);
+};
+
 
 mongoose.model('User', UserSchema);
