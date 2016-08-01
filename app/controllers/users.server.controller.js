@@ -6,7 +6,7 @@ var getErrorMessage = function(err) {
     switch (err.code) {
       case 11000:
       case 11001:
-      message = 'Username already exists';
+      message = 'Pseudo already exists';
       break;default:
       message = 'Something went wrong';
     }
@@ -49,7 +49,8 @@ exports.signup = function(req, res, next) {
         return res.redirect('/signup');
       }
       req.login(user, function(err) {
-        if (err) return next(err);return res.redirect('/');
+        if (err) return next(err);
+        return res.redirect('/');
       });
     });
   } else {
@@ -119,9 +120,25 @@ exports.userByID = function(req, res, next, id) {
       if (err) {
         return done(err);
       } else {
-
-        return done(err, user);
-
-      }
-    });
-  };
+        if (!user) {
+          var possiblePseudo = profile.pseudo || ((profile.email) ?
+          profile.email.split('@')[0] : '');
+          User.findUniquePseudo(possiblePseudo, null,
+            function(availablePseudo) {
+              profile.pseudo = availablePseudo;
+              user = new User(profile);
+              user.save(function(err) {
+                if (err) {
+                  var message = _this.getErrorMessage(err);
+                  req.flash('error', message);
+                  return res.redirect('/signup');
+                }
+                return done(err, user);
+              });
+            });
+          } else {
+            return done(err, user);
+          }
+        }
+      });
+    };

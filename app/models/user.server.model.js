@@ -75,23 +75,23 @@ UserSchema.methods.hashPassword = function(password) {
 UserSchema.methods.authenticate = function(password) {
   return this.password === this.hashPassword(password);
 };
-// UserSchema.statics.findUniqueUsername = function(username, suffix,callback) {
-//   var _this = this;
-//   var possibleUsername = username + (suffix || '');
-//   _this.findOne({
-//     username: possibleUsername
-//   }, function(err, user) {
-//     if (!err) {
-//       if (!user) {
-//         callback(possibleUsername);
-//       } else {
-//         return _this.findUniqueUsername(username, (suffix || 0) + 1, callback);
-//       }
-//     } else {
-//       callback(null);
-//     }
-//   });
-// };
+UserSchema.statics.findUniquePseudo = function(pseudo, suffix,callback) {
+  var _this = this;
+  var possiblePseudo = pseudo + (suffix || '');
+  _this.findOne({
+    pseudo: possiblePseudo
+  }, function(err, user) {
+    if (!err) {
+      if (!user) {
+        callback(possiblePseudo);
+      } else {
+        return _this.findUniquePseudo(pseudo, (suffix || 0) + 1, callback);
+      }
+    } else {
+      callback(null);
+    }
+  });
+};
 UserSchema.set('toJSON', {
   getters: true,
   virtuals: true
