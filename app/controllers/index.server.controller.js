@@ -7,6 +7,6 @@ exports.render = function(req, res){
   // use index.ejs to render what's in "% %"
   res.render('index', {
     title: 'Hello, world!',
-    userFullName: req.user,
+    user: JSON.stringify(req.user),
   });
 };
