@@ -39,7 +39,7 @@ module.exports = function(){
 
   require('../app/routes/index.server.routes.js')(app);
   require('../app/routes/users.server.routes.js')(app);
-  // require('../app/routes/repo.server.routes.js')(app);
+  require('../app/routes/repos.server.routes.js')(app);
   // require('../app/routes/message.server.routes.js')(app);
   // require('../app/routes/file.server.routes.js')(app);
   // require('../app/routes/discussion.server.routes.js')(app);
